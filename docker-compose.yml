@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  server:
+    container_name: kcloud-server-dev
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: sh ./server.dev.sh
+    ports:
+      - 8000:8000
+    networks:
+      - kcloud-network
+    volumes:
+      - ./kcloud/:/app/
+      - ./server.dev.sh:/app/server.dev.sh
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=django
+      - POSTGRES_DB=kcloud-dev-db
+      - POSTGRES_PASSWORD=django
+    depends_on:
+      - database
+
+
+  database:
+    container_name: kcloud-db-dev
+    image: postgres:15.1-alpine
+    volumes:
+      - kcloud-db-dev:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=django
+      - POSTGRES_DB=kcloud-dev-db
+      - POSTGRES_PASSWORD=django
+    ports:
+      - 5432:5432
+    networks:
+      - kcloud-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  kcloud-db-dev:
+
+networks:
+  kcloud-network:
+    driver: bridge
