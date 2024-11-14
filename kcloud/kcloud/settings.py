@@ -145,14 +145,15 @@ AUTHENTICATION_BACKENDS = [
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
     'USER_CREATE_PASSWORD_RETYPE': True,
     'SET_PASSWORD:RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None, #only jwt
     'ACTIVATION_URL': 'auth/verify/{uid}/{token}/',
     'SERIALIZERS': {
-        'user_create': 'users.serializers.UserCreateSerializer',  # Используем кастомный сериализатор для регистрации
+        'user_create': 'users.serializers.UserCreateSerializer',
+        'token_create': 'users.serializers.CustomTokenCreateSerializer',# Используем кастомный сериализатор для регистрации
     },
 }
 SITE_ID = 1
