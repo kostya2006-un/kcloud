@@ -107,6 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    BASE_DIR/ 'static',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
