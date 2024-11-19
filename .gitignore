@@ -166,3 +166,4 @@ back/staticfiles
 scripts
 .env.prod
 dump
+/kcloud/media
